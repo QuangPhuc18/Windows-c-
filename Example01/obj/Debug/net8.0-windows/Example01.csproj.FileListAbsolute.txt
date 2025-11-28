@@ -1,0 +1,17 @@
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Form1.resources
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.csproj.GenerateResource.cache
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.AssemblyInfoInputs.cache
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.AssemblyInfo.cs
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.csproj.CoreCompileInputs.cache
+D:\C#\LeQuangPhuc_2123110118\Example01\bin\Debug\net8.0-windows\Example01.exe
+D:\C#\LeQuangPhuc_2123110118\Example01\bin\Debug\net8.0-windows\Example01.deps.json
+D:\C#\LeQuangPhuc_2123110118\Example01\bin\Debug\net8.0-windows\Example01.runtimeconfig.json
+D:\C#\LeQuangPhuc_2123110118\Example01\bin\Debug\net8.0-windows\Example01.dll
+D:\C#\LeQuangPhuc_2123110118\Example01\bin\Debug\net8.0-windows\Example01.pdb
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.dll
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\refint\Example01.dll
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.pdb
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.genruntimeconfig.cache
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\ref\Example01.dll
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Menu.resources

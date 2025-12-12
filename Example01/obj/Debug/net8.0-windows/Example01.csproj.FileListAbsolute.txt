@@ -1,4 +1,3 @@
-D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Form1.resources
 D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.csproj.GenerateResource.cache
 D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.GeneratedMSBuildEditorConfig.editorconfig
 D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.AssemblyInfoInputs.cache
@@ -15,3 +14,11 @@ D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.pdb
 D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.genruntimeconfig.cache
 D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\ref\Example01.dll
 D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Menu.resources
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.sourcelink.json
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Bai1.resources
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Bai3.resources
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Bai5.resources
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Bai6.resources
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Bai7.resources
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Properties.Resources.resources
+D:\C#\LeQuangPhuc_2123110118\Example01\obj\Debug\net8.0-windows\Example01.Bai8.resources

@@ -4,6 +4,48 @@
     <Compile Update="Bai1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Bai10.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai11.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai12.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai14.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai15.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai16.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai17.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai18.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai19.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai20.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai21.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai22.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai23.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Bai24.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Bai3.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -20,6 +62,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Bai9.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Game.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Menu.cs">

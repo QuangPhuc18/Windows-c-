@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Example01
@@ -16,24 +9,48 @@ namespace Example01
         {
             InitializeComponent();
         }
+
+        private bool LayGiaTri(out int x, out int y)
+        {
+            x = 0;
+            y = 0;
+
+            if (!int.TryParse(tbSoX.Text, out x))
+            {
+                MessageBox.Show("Vui lòng nhập số X hợp lệ!");
+                tbSoX.Focus();
+                return false;
+            }
+
+            if (!int.TryParse(tbSoY.Text, out y))
+            {
+                MessageBox.Show("Vui lòng nhập số Y hợp lệ!");
+                tbSoY.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
         private void btnCong_Click(object sender, EventArgs e)
         {
-            int x = int.Parse(tbSoX.Text);
-            int y = int.Parse(tbSoY.Text);
-            int kq = x + y;
-            tbKetQua.Text = kq.ToString();
-
+            if (LayGiaTri(out int x, out int y))
+            {
+                tbKetQua.Text = (x + y).ToString();
+            }
         }
+
         private void btnNhan_Click(object sender, EventArgs e)
         {
-            int x = int.Parse(tbSoX.Text);
-            int y = int.Parse(tbSoY.Text);
-            int kq = x * y;
-            tbKetQua.Text = kq.ToString();
-
+            if (LayGiaTri(out int x, out int y))
+            {
+                tbKetQua.Text = (x * y).ToString();
+            }
         }
-        private void btThoat_Click(object sender, EventArgs e) { 
-        this.Close();
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

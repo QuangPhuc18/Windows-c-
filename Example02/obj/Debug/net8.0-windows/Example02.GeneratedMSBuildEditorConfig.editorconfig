@@ -17,3 +17,6 @@ build_property.RootNamespace = Example02
 build_property.ProjectDir = D:\C#\LeQuangPhuc_2123110118\Example02\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 

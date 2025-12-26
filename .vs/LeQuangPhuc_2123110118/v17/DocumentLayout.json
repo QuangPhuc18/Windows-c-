@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|solutionrelative:example01\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|d:\\c#\\lequangphuc_2123110118\\example01\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|solutionrelative:example01\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|D:\\C#\\LeQuangPhuc_2123110118\\example01\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|solutionrelative:example01\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
@@ -19,11 +23,7 @@
       "RelativeMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|solutionrelative:example01\\faculty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|d:\\c#\\lequangphuc_2123110118\\example01\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|solutionrelative:example01\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|d:\\c#\\lequangphuc_2123110118\\example01\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|D:\\C#\\LeQuangPhuc_2123110118\\example01\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F736DE81-8B44-4B92-A3CE-42DE887CC1A7}|Example01\\Example01.csproj|solutionrelative:example01\\menu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -282,8 +282,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Menu.cs",
+              "DocumentMoniker": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Menu.cs",
+              "RelativeDocumentMoniker": "Example01\\Menu.cs",
+              "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Menu.cs",
+              "RelativeToolTip": "Example01\\Menu.cs",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAwwJQAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-12T06:28:44.328Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 5,
@@ -293,12 +306,11 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Menu.cs [Design]",
               "RelativeToolTip": "Example01\\Menu.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T02:48:57.443Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-19T02:48:57.443Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Game.cs [Design]",
               "DocumentMoniker": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Game.cs",
               "RelativeDocumentMoniker": "Example01\\Game.cs",
@@ -310,7 +322,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Game.Designer.cs",
               "DocumentMoniker": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Game.Designer.cs",
               "RelativeDocumentMoniker": "Example01\\Game.Designer.cs",
@@ -318,12 +330,11 @@
               "RelativeToolTip": "Example01\\Game.Designer.cs",
               "ViewState": "AgIAACYAAAAAAAAAAAAAADoAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T05:45:49.443Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-19T05:45:49.443Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Faculty.cs",
               "DocumentMoniker": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Faculty.cs",
               "RelativeDocumentMoniker": "Example01\\Faculty.cs",
@@ -331,8 +342,7 @@
               "RelativeToolTip": "Example01\\Faculty.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAiwAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T15:31:44.781Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-18T15:31:44.781Z"
             },
             {
               "$type": "Document",
@@ -342,22 +352,9 @@
               "RelativeDocumentMoniker": "Example01\\Game.cs",
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Game.cs",
               "RelativeToolTip": "Example01\\Game.cs",
-              "ViewState": "AgIAALgBAAAAAAAAAAAowLsBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJ4CAAAAAAAAAAAkwKkCAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-19T05:45:23.704Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Menu.cs",
-              "DocumentMoniker": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Menu.cs",
-              "RelativeDocumentMoniker": "Example01\\Menu.cs",
-              "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Menu.cs",
-              "RelativeToolTip": "Example01\\Menu.cs",
-              "ViewState": "AgIAAIkAAAAAAAAAAAAqwJUAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T06:28:44.328Z",
               "EditorCaption": ""
             },
             {
@@ -581,8 +578,7 @@
               "RelativeToolTip": "Example01\\Bai19.Designer.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAYwD0AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T03:22:31.82Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-19T03:22:31.82Z"
             },
             {
               "$type": "Document",
@@ -593,8 +589,7 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Bai19.cs [Design]",
               "RelativeToolTip": "Example01\\Bai19.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T03:22:03.782Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-19T03:22:03.782Z"
             },
             {
               "$type": "Document",
@@ -665,8 +660,7 @@
               "RelativeToolTip": "Example01\\Menu.Designer.cs",
               "ViewState": "AgIAAB8AAAAAAAAAAAAiwCsAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T07:42:43.313Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-12T07:42:43.313Z"
             },
             {
               "$type": "Document",
@@ -690,8 +684,7 @@
               "RelativeToolTip": "Example01\\Bai16.Designer.cs",
               "ViewState": "AgIAAEAAAAAAAAAAAADwv7UAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T02:19:49.785Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-19T02:19:49.785Z"
             },
             {
               "$type": "Document",
@@ -715,8 +708,7 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Bai16.cs [Design]",
               "RelativeToolTip": "Example01\\Bai16.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T02:18:45.194Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-19T02:18:45.194Z"
             },
             {
               "$type": "Document",
@@ -740,8 +732,7 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Bai15.cs [Design]",
               "RelativeToolTip": "Example01\\Bai15.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T02:08:26.936Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-19T02:08:26.936Z"
             },
             {
               "$type": "Document",
@@ -753,8 +744,7 @@
               "RelativeToolTip": "Example01\\Bai15.Designer.cs",
               "ViewState": "AgIAAD4AAAAAAAAAAADwv1cAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T02:07:55.493Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-19T02:07:55.493Z"
             },
             {
               "$type": "Document",
@@ -766,8 +756,7 @@
               "RelativeToolTip": "Example01\\Bai14.Designer.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAwwJUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T02:02:03.711Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-19T02:02:03.711Z"
             },
             {
               "$type": "Document",
@@ -791,8 +780,7 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Bai14.cs [Design]",
               "RelativeToolTip": "Example01\\Bai14.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-19T02:01:58.823Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-19T02:01:58.823Z"
             },
             {
               "$type": "Document",
@@ -817,8 +805,7 @@
               "RelativeToolTip": "Example01\\Bai12.Designer.cs",
               "ViewState": "AgIAAEIAAAAAAAAAAAAYwDcAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T15:12:17.994Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-18T15:12:17.994Z"
             },
             {
               "$type": "Document",
@@ -829,8 +816,7 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Bai12.cs [Design]",
               "RelativeToolTip": "Example01\\Bai12.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-18T14:54:29.571Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-18T14:54:29.571Z"
             },
             {
               "$type": "Document",
@@ -912,8 +898,7 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Bai9.cs [Design]",
               "RelativeToolTip": "Example01\\Bai9.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T06:33:30.885Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-17T06:33:30.885Z"
             },
             {
               "$type": "Document",
@@ -925,8 +910,7 @@
               "RelativeToolTip": "Example01\\Bai9.Designer.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAQwKYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T06:38:13.823Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-17T06:38:13.823Z"
             },
             {
               "$type": "Document",
@@ -951,8 +935,7 @@
               "RelativeToolTip": "Example01\\Bai8.Designer.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAQwHsAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T03:32:55.276Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-17T03:32:55.276Z"
             },
             {
               "$type": "Document",
@@ -963,8 +946,7 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Bai8.cs [Design]",
               "RelativeToolTip": "Example01\\Bai8.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T08:51:14.083Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-12T08:51:14.083Z"
             },
             {
               "$type": "Document",
@@ -989,8 +971,7 @@
               "RelativeToolTip": "Example01\\Bai7.Designer.cs",
               "ViewState": "AgIAAC8AAAAAAAAAAAAjwD0AAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T08:23:45.195Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-12T08:23:45.195Z"
             },
             {
               "$type": "Document",
@@ -1001,8 +982,7 @@
               "ToolTip": "D:\\C#\\LeQuangPhuc_2123110118\\Example01\\Bai7.cs [Design]",
               "RelativeToolTip": "Example01\\Bai7.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-12T08:48:06.259Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-12-12T08:48:06.259Z"
             },
             {
               "$type": "Document",

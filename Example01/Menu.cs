@@ -145,8 +145,8 @@ namespace Example01
 
         private void btn_game_Click(object sender, EventArgs e)
         {
-            Game bai24 = new Game();
-            bai24.Show();
+            Game bai25 = new Game();
+            bai25.Show();
         }
     }
 }

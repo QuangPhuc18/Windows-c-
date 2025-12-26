@@ -5,13 +5,16 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Media;
+using System.Runtime.InteropServices; // [1] THÊM THƯ VIỆN NÀY
+using System.Text;                    // [1] THÊM THƯ VIỆN NÀY
+
 namespace Example01
 {
     public partial class Game : Form
     {
         // --- CẤU HÌNH GAME ---
         int playerSpeed = 12;
-        int bulletSpeed = 20;
+        int bulletSpeed = 17;
         int enemySpeed = 3;
         int enemyBulletSpeed = 10;
         int score = 0;
@@ -21,13 +24,26 @@ namespace Example01
         int maxHealth = 5;
         int bossHealth = 20;
         int enemyShootChance = 1;
+
         SoundPlayer sfxShoot;
+
         int bulletLevel = 1;
         int maxBulletLevel = 3;
         int itemSpeed = 5;
 
         bool isGameOver = false;
+
+        // --- BIẾN CHO HIỆU ỨNG TRANSITION (RANDOM BARS) ---
+        bool isTransitioning = false;
+        List<Panel> transitionBars = new List<Panel>();
+        int transitionStep = 0;
+        int transitionWaitTime = 0;
+        bool isCovering = true;
+
         Random rnd = new Random();
+
+        // --- BỘ NHỚ ĐỆM ẢNH ---
+        Dictionary<string, Image> imageCache = new Dictionary<string, Image>();
 
         // --- DANH SÁCH QUẢN LÝ ---
         List<PictureBox> bullets = new List<PictureBox>();
@@ -37,25 +53,172 @@ namespace Example01
         List<Label> effects = new List<Label>();
 
         // --- GIAO DIỆN ---
-        PictureBox pbPlayer = new PictureBox(); // Tạo máy bay bằng code
+        PictureBox pbPlayer = new PictureBox();
         Label lblHealth = new Label();
         Label lblHighScore = new Label();
+        Label lblLevelMsg = new Label();
 
         // Điều khiển
         bool goLeft, goRight, goUp, goDown;
+
+        // --- TIMER ---
+        System.Windows.Forms.Timer timerPowerUp = new System.Windows.Forms.Timer();
+        System.Windows.Forms.Timer timerTransition = new System.Windows.Forms.Timer();
+
+        // [2] KHAI BÁO HÀM PHÁT NHẠC TỪ WINDOWS
+        [DllImport("winmm.dll")]
+        private static extern long mciSendString(string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hwndCallback);
 
         public Game()
         {
             InitializeComponent();
 
-            // --- SỬA LỖI: KẾT NỐI BÀN PHÍM THỦ CÔNG ---
+            // Tối ưu hóa render
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+            this.UpdateStyles();
+
+            // Kết nối bàn phím
             this.KeyPreview = true;
             this.KeyDown += new KeyEventHandler(Form1_KeyDown);
             this.KeyUp += new KeyEventHandler(Form1_KeyUp);
-            // ------------------------------------------
+
+            // Cấu hình Timer
+            timerPowerUp.Interval = 5000;
+            timerPowerUp.Tick += TimerPowerUp_Tick;
+
+            timerTransition.Interval = 20;
+            timerTransition.Tick += TimerTransition_Tick;
 
             SetupGame();
         }
+
+        // [3] HÀM XỬ LÝ NHẠC NỀN
+        private void PlayBackgroundMusic(string filePath)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    // Đóng nhạc cũ nếu đang chạy để tránh lỗi
+                    mciSendString("close BgMusic", null, 0, IntPtr.Zero);
+
+                    // Mở file mới và đặt tên là BgMusic
+                    string command = "open \"" + filePath + "\" type mpegvideo alias BgMusic";
+                    mciSendString(command, null, 0, IntPtr.Zero);
+
+                    // Phát lặp lại (repeat)
+                    mciSendString("play BgMusic repeat", null, 0, IntPtr.Zero);
+                }
+            }
+            catch { }
+        }
+
+        private void StopBackgroundMusic()
+        {
+            try
+            {
+                mciSendString("close BgMusic", null, 0, IntPtr.Zero);
+            }
+            catch { }
+        }
+
+        private void TimerPowerUp_Tick(object sender, EventArgs e)
+        {
+            if (bulletLevel > 1)
+            {
+                bulletLevel = 1;
+                ShowFloatingText("POWER LOST", Color.Gray, pbPlayer.Left, pbPlayer.Top - 30);
+            }
+            timerPowerUp.Stop();
+        }
+
+        // --- XỬ LÝ HIỆU ỨNG RANDOM BARS ---
+        private void TimerTransition_Tick(object sender, EventArgs e)
+        {
+            if (isCovering)
+            {
+                for (int k = 0; k < 2; k++)
+                {
+                    if (transitionStep < transitionBars.Count)
+                    {
+                        transitionBars[transitionStep].Visible = true;
+                        transitionBars[transitionStep].BringToFront();
+                        transitionStep++;
+                    }
+                }
+
+                if (transitionStep >= transitionBars.Count)
+                {
+                    lblLevelMsg.Text = "LEVEL " + (level + 1);
+                    lblLevelMsg.Visible = true;
+                    lblLevelMsg.BringToFront();
+
+                    level++;
+                    UpdateScoreBoard();
+                    this.SuspendLayout();
+                    SetupLevel();
+                    this.ResumeLayout();
+
+                    isCovering = false;
+                    transitionWaitTime = 40;
+                }
+            }
+            else if (transitionWaitTime > 0)
+            {
+                transitionWaitTime--;
+            }
+            else
+            {
+                lblLevelMsg.Visible = false;
+                for (int k = 0; k < 2; k++)
+                {
+                    if (transitionStep > 0)
+                    {
+                        transitionStep--;
+                        transitionBars[transitionStep].Visible = false;
+                    }
+                }
+
+                if (transitionStep <= 0)
+                {
+                    timerTransition.Stop();
+                    isTransitioning = false;
+                    gameTimer.Start();
+                }
+            }
+        }
+
+        private void InitializeTransitionBars()
+        {
+            if (transitionBars.Count > 0) return;
+            int barCount = 20;
+            int barWidth = this.ClientSize.Width / barCount;
+
+            for (int i = 0; i < barCount; i++)
+            {
+                Panel p = new Panel();
+                p.BackColor = Color.Black;
+                p.Size = new Size(barWidth + 5, this.ClientSize.Height);
+                p.Location = new Point(i * barWidth, 0);
+                p.Visible = false;
+                this.Controls.Add(p);
+                transitionBars.Add(p);
+            }
+        }
+
+        private void ShuffleBars()
+        {
+            int n = transitionBars.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rnd.Next(n + 1);
+                Panel value = transitionBars[k];
+                transitionBars[k] = transitionBars[n];
+                transitionBars[n] = value;
+            }
+        }
+
         protected override CreateParams CreateParams
         {
             get
@@ -65,20 +228,31 @@ namespace Example01
                 return handleParam;
             }
         }
+
         private void SetImage(PictureBox pb, string fileName, Color fallbackColor)
         {
             try
             {
-                if (File.Exists(fileName))
+                if (imageCache.ContainsKey(fileName))
                 {
-                    pb.Image = Image.FromFile(fileName);
-                    pb.SizeMode = PictureBoxSizeMode.Zoom;
-                    pb.BackColor = Color.Transparent;
+                    pb.Image = imageCache[fileName];
                 }
                 else
                 {
-                    pb.BackColor = fallbackColor; // Nếu thiếu ảnh thì dùng màu
+                    if (File.Exists(fileName))
+                    {
+                        Image img = Image.FromFile(fileName);
+                        imageCache.Add(fileName, img);
+                        pb.Image = img;
+                    }
+                    else
+                    {
+                        pb.BackColor = fallbackColor;
+                        return;
+                    }
                 }
+                pb.SizeMode = PictureBoxSizeMode.Zoom;
+                pb.BackColor = Color.Transparent;
             }
             catch
             {
@@ -86,36 +260,39 @@ namespace Example01
             }
         }
 
-        // --- HÀM MỚI: ĐỔI MÀN HÌNH NỀN ---
         private void ChangeBackground(string bgName)
         {
             try
             {
-                if (File.Exists(bgName))
-                    this.BackgroundImage = Image.FromFile(bgName);
+                if (imageCache.ContainsKey(bgName))
+                    this.BackgroundImage = imageCache[bgName];
+                else if (File.Exists(bgName))
+                {
+                    Image bg = Image.FromFile(bgName);
+                    imageCache[bgName] = bg;
+                    this.BackgroundImage = bg;
+                }
             }
             catch { }
         }
 
         private void SetupGame()
         {
-            this.Text = "Space Invaders: Galactic Defender";
+            this.Text = "Space Invaders: Galactic Defender - With Music";
             this.DoubleBuffered = true;
             this.MaximizeBox = false;
             this.BackColor = Color.Black;
-            this.ClientSize = new Size(800, 600); // Cố định kích thước cửa sổ
+            this.ClientSize = new Size(800, 600);
 
-            // Nền vũ trụ mặc định (Màn 1)
+            InitializeTransitionBars();
             ChangeBackground("vutru.png");
             this.BackgroundImageLayout = ImageLayout.Stretch;
 
-            // --- CÀI ĐẶT PLAYER ---
             if (!this.Controls.Contains(pbPlayer)) this.Controls.Add(pbPlayer);
-            pbPlayer.Size = new Size(150, 170); // Kích thước chuẩn
+            pbPlayer.Size = new Size(150, 170);
             pbPlayer.Left = this.ClientSize.Width / 2 - pbPlayer.Width / 2;
             pbPlayer.Top = this.ClientSize.Height - 200;
 
-            // Dùng ảnh máy bay (Bạn đã có file này rồi)
             if (File.Exists("player.png")) SetImage(pbPlayer, "player.png", Color.Lime);
             else SetImage(pbPlayer, "maybay.png", Color.Lime);
 
@@ -124,20 +301,29 @@ namespace Example01
             LoadHighScore();
             SetupUI();
 
-            // Reset Game
             score = 0; level = 1; playerHealth = 3; bulletLevel = 1; isGameOver = false;
+            isTransitioning = false;
+            timerPowerUp.Stop();
+            timerTransition.Stop();
+
+            gameTimer.Interval = 20;
+            gameTimer.Start();
+
+            // [4] BẬT NHẠC NỀN
+            PlayBackgroundMusic("nhacnen.mp3");
+
             UpdateScoreBoard();
             SetupLevel();
+
             try
             {
-                if (System.IO.File.Exists("lazesound.wav"))
+                if (File.Exists("lazesound.wav"))
                 {
                     sfxShoot = new SoundPlayer("lazesound.wav");
-                    sfxShoot.Load(); // Nạp trước để bắn không bị trễ
+                    sfxShoot.Load();
                 }
             }
             catch { }
-            gameTimer.Start();
         }
 
         private void SetupUI()
@@ -156,9 +342,15 @@ namespace Example01
             if (!this.Controls.Contains(lblHighScore)) this.Controls.Add(lblHighScore);
             lblHighScore.BringToFront();
 
-            // Ẩn các label cũ từ Designer để tránh trùng lặp
-            if (lblScore != null) lblScore.Visible = false;
-            if (lblLevel != null) lblLevel.Visible = false;
+            lblLevelMsg.Font = new Font("Consolas", 36, FontStyle.Bold);
+            lblLevelMsg.ForeColor = Color.Cyan;
+            lblLevelMsg.AutoSize = false;
+            lblLevelMsg.Size = new Size(800, 100);
+            lblLevelMsg.TextAlign = ContentAlignment.MiddleCenter;
+            lblLevelMsg.Location = new Point(0, this.ClientSize.Height / 2 - 50);
+            lblLevelMsg.BackColor = Color.Transparent;
+            lblLevelMsg.Visible = false;
+            if (!this.Controls.Contains(lblLevelMsg)) this.Controls.Add(lblLevelMsg);
         }
 
         private void SetupLevel()
@@ -166,12 +358,11 @@ namespace Example01
             ClearGameObjects();
             enemyShootChance = 1 + (level / 2);
 
-            // --- LOGIC ĐỔI BACKGROUND THEO MÀN ---
-            if (level <= 3) ChangeBackground("vutru.png");      // Màn 1-3: Nền 1
-            else if (level <= 6) ChangeBackground("vutru2.png"); // Màn 4-6: Nền 2
-            else ChangeBackground("vutru3.png");                 // Màn 7+: Nền 3
+            if (level <= 3) ChangeBackground("vutru.png");
+            else if (level <= 6) ChangeBackground("vutru2.png");
+            else ChangeBackground("vutru3.png");
 
-            if (level % 5 == 0) // Boss level
+            if (level % 5 == 0)
             {
                 enemySpeed = 3 + level;
                 bossHealth = 20 + (level * 5);
@@ -188,6 +379,12 @@ namespace Example01
 
         private void ClearGameObjects()
         {
+            foreach (var x in enemies) x.Visible = false;
+            foreach (var x in bullets) x.Visible = false;
+            foreach (var x in enemyBullets) x.Visible = false;
+            foreach (var x in items) x.Visible = false;
+            foreach (var x in effects) x.Visible = false;
+
             foreach (var x in enemies) this.Controls.Remove(x); enemies.Clear();
             foreach (var x in bullets) this.Controls.Remove(x); bullets.Clear();
             foreach (var x in enemyBullets) this.Controls.Remove(x); enemyBullets.Clear();
@@ -206,7 +403,6 @@ namespace Example01
                 {
                     PictureBox enemy = new PictureBox();
                     enemy.Size = new Size(50, 50);
-                    // Cố gắng tải ảnh quái vật, nếu không có sẽ dùng màu tím/đỏ
                     if (j % 2 == 0) SetImage(enemy, "enemy_purple.png", Color.Purple);
                     else SetImage(enemy, "nhen-removebg-preview.png", Color.Red);
 
@@ -233,18 +429,13 @@ namespace Example01
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            if (isGameOver) return;
+            if (isGameOver || isTransitioning) return;
 
-            // XỬ LÝ DI CHUYỂN
-            if (goLeft && pbPlayer.Left > 10)
-                pbPlayer.Left -= playerSpeed;
-            if (goRight && pbPlayer.Left < this.ClientSize.Width - pbPlayer.Width - 10)
-                pbPlayer.Left += playerSpeed;
-            if (goUp && pbPlayer.Top > 10)
-                pbPlayer.Top -= playerSpeed;
+            if (goLeft && pbPlayer.Left > 10) pbPlayer.Left -= playerSpeed;
+            if (goRight && pbPlayer.Left < this.ClientSize.Width - pbPlayer.Width - 10) pbPlayer.Left += playerSpeed;
+            if (goUp && pbPlayer.Top > 10) pbPlayer.Top -= playerSpeed;
+            if (goDown && pbPlayer.Top < this.ClientSize.Height - pbPlayer.Height - 10) pbPlayer.Top += playerSpeed;
 
-            if (goDown && pbPlayer.Top < this.ClientSize.Height - pbPlayer.Height - 10)
-                pbPlayer.Top += playerSpeed;
             MoveEnemies();
             EnemyAttackLogic();
             HandlePlayerBullets();
@@ -252,13 +443,25 @@ namespace Example01
             HandleItems();
             HandleEffects();
 
-            if (enemies.Count == 0) { level++; UpdateScoreBoard(); SetupLevel(); }
+            if (enemies.Count == 0) StartLevelTransition();
+
             UpdateScoreBoard();
+        }
+
+        private void StartLevelTransition()
+        {
+            isTransitioning = true;
+            gameTimer.Stop();
+            ShuffleBars();
+            transitionStep = 0;
+            isCovering = true;
+            transitionWaitTime = 0;
+            foreach (var p in transitionBars) p.Visible = false;
+            timerTransition.Start();
         }
 
         private void SpawnItem(int x, int y)
         {
-            // --- ĐÃ GIẢM TỶ LỆ RƠI CÒN 5% (Code cũ là 25%) ---
             if (rnd.Next(0, 100) < 5)
             {
                 PictureBox item = new PictureBox();
@@ -287,8 +490,10 @@ namespace Example01
                     }
                     else if (item.Tag.ToString() == "item_power")
                     {
-                        if (bulletLevel < maxBulletLevel) { bulletLevel++; ShowFloatingText("POWER UP!", Color.Cyan, pbPlayer.Left, pbPlayer.Top - 30); }
-                        else { score += 100; ShowFloatingText("+100 PTS", Color.Gold, pbPlayer.Left, pbPlayer.Top - 30); }
+                        bulletLevel = maxBulletLevel;
+                        ShowFloatingText("POWER UP (5s)!", Color.Cyan, pbPlayer.Left, pbPlayer.Top - 30);
+                        timerPowerUp.Stop();
+                        timerPowerUp.Start();
                     }
                     items.RemoveAt(i); this.Controls.Remove(item);
                 }
@@ -318,9 +523,14 @@ namespace Example01
         {
             if (sfxShoot != null)
             {
-                try { sfxShoot.Play(); } catch { } // Play() phát 1 lần rồi thôi
+                try
+                {
+                    sfxShoot.Stop();
+                    sfxShoot.Play();
+                }
+                catch { }
             }
-            // Bắn đạn: Cần file bullet.png trong thư mục Debug
+
             if (bulletLevel == 1)
                 CreateBullet(pbPlayer.Left + pbPlayer.Width / 2 - 5, pbPlayer.Top - 20, 0);
             else if (bulletLevel == 2)
@@ -339,8 +549,8 @@ namespace Example01
         private void CreateBullet(int x, int y, int speedX)
         {
             PictureBox bullet = new PictureBox();
-            bullet.Size = new Size(70, 90); // Kích thước đạn
-            SetImage(bullet, "laze.png", Color.Yellow); // Tìm ảnh bullet.png
+            bullet.Size = new Size(70, 90);
+            SetImage(bullet, "laze.png", Color.Yellow);
             bullet.Left = x; bullet.Top = y; bullet.Tag = speedX;
             this.Controls.Add(bullet); bullets.Add(bullet); bullet.BringToFront();
         }
@@ -352,7 +562,8 @@ namespace Example01
                 PictureBox bullet = bullets[i];
                 bullet.Top -= bulletSpeed;
                 if (bullet.Tag is int speedX && speedX != 0) bullet.Left += speedX;
-                if (bullet.Top < 0) { bullets.RemoveAt(i); this.Controls.Remove(bullet); continue; }
+
+                if (bullet.Top < -100) { bullets.RemoveAt(i); this.Controls.Remove(bullet); continue; }
 
                 for (int j = enemies.Count - 1; j >= 0; j--)
                 {
@@ -360,12 +571,25 @@ namespace Example01
                     {
                         SpawnItem(enemies[j].Left, enemies[j].Top);
                         bullets.RemoveAt(i); this.Controls.Remove(bullet);
+
                         if (enemies[j].Tag.ToString() == "boss")
                         {
-                            bossHealth--; enemies[j].BackColor = (bossHealth % 2 == 0) ? Color.White : Color.Transparent;
-                            if (bossHealth <= 0) { score += 1000; ShowFloatingText("BOSS DEFEATED!", Color.Gold, enemies[j].Left, enemies[j].Top); this.Controls.Remove(enemies[j]); enemies.RemoveAt(j); }
+                            bossHealth--;
+                            enemies[j].BackColor = (bossHealth % 2 == 0) ? Color.White : Color.Transparent;
+                            if (bossHealth <= 0)
+                            {
+                                score += 1000;
+                                ShowFloatingText("BOSS DEFEATED!", Color.Gold, enemies[j].Left, enemies[j].Top);
+                                this.Controls.Remove(enemies[j]);
+                                enemies.RemoveAt(j);
+                            }
                         }
-                        else { score += 50; this.Controls.Remove(enemies[j]); enemies.RemoveAt(j); }
+                        else
+                        {
+                            score += 50;
+                            this.Controls.Remove(enemies[j]);
+                            enemies.RemoveAt(j);
+                        }
                         break;
                     }
                 }
@@ -377,19 +601,12 @@ namespace Example01
             if (enemies.Count > 0 && rnd.Next(0, 200) < enemyShootChance)
             {
                 var shooter = enemies[rnd.Next(enemies.Count)];
-
                 PictureBox bullet = new PictureBox();
-                bullet.Size = new Size(80, 90); // Chỉnh kích thước cho hợp với ảnh mới
-
-                // --- THAY ĐỔI Ở ĐÂY: Dùng ảnh thay vì màu đỏ ---
+                bullet.Size = new Size(80, 90);
                 SetImage(bullet, "fire.png", Color.Red);
-                // (Nếu không tìm thấy ảnh fireball.png thì nó sẽ dùng màu Đỏ dự phòng)
-                // ---------------------------------------------
-
-                bullet.Left = shooter.Left + shooter.Width / 2 - bullet.Width / 2; // Canh giữa chuẩn hơn
+                bullet.Left = shooter.Left + shooter.Width / 2 - bullet.Width / 2;
                 bullet.Top = shooter.Top + shooter.Height;
                 bullet.Tag = "enemyBullet";
-
                 this.Controls.Add(bullet);
                 enemyBullets.Add(bullet);
                 bullet.BringToFront();
@@ -401,8 +618,13 @@ namespace Example01
             foreach (var enemy in enemies)
             {
                 enemy.Left += enemySpeed;
-                if (enemy.Left > this.ClientSize.Width - enemy.Width - 10 || enemy.Left < 10) { enemySpeed = -enemySpeed; enemy.Top += 40; }
-                if (enemy.Bounds.IntersectsWith(pbPlayer.Bounds) || enemy.Top > pbPlayer.Top) GameOver("INVASION SUCCESSFUL!");
+                if (enemy.Left > this.ClientSize.Width - enemy.Width - 10 || enemy.Left < 10)
+                {
+                    enemySpeed = -enemySpeed;
+                    enemy.Top += 40;
+                }
+                if (enemy.Bounds.IntersectsWith(pbPlayer.Bounds) || enemy.Top > pbPlayer.Top)
+                    GameOver("INVASION SUCCESSFUL!");
             }
         }
 
@@ -412,18 +634,35 @@ namespace Example01
             {
                 PictureBox bullet = enemyBullets[i];
                 bullet.Top += enemyBulletSpeed;
-                if (bullet.Top > this.ClientSize.Height) { enemyBullets.RemoveAt(i); this.Controls.Remove(bullet); continue; }
-                if (bullet.Bounds.IntersectsWith(pbPlayer.Bounds)) { enemyBullets.RemoveAt(i); this.Controls.Remove(bullet); TakeDamage(); }
+                if (bullet.Top > this.ClientSize.Height)
+                {
+                    enemyBullets.RemoveAt(i);
+                    this.Controls.Remove(bullet);
+                    continue;
+                }
+                if (bullet.Bounds.IntersectsWith(pbPlayer.Bounds))
+                {
+                    enemyBullets.RemoveAt(i);
+                    this.Controls.Remove(bullet);
+                    TakeDamage();
+                }
             }
         }
 
         private void TakeDamage()
         {
-            if (bulletLevel > 1) { bulletLevel--; ShowFloatingText("WEAPON DAMAGED", Color.Orange, pbPlayer.Left, pbPlayer.Top - 50); }
-            playerHealth--; UpdateScoreBoard();
+            if (bulletLevel > 1)
+            {
+                bulletLevel--;
+                ShowFloatingText("WEAPON DAMAGED", Color.Orange, pbPlayer.Left, pbPlayer.Top - 50);
+            }
+            playerHealth--;
+            UpdateScoreBoard();
             pbPlayer.BackColor = Color.Red;
-            System.Windows.Forms.Timer t = new System.Windows.Forms.Timer(); t.Interval = 100;
-            t.Tick += (s, ev) => { pbPlayer.BackColor = Color.Transparent; t.Stop(); t.Dispose(); }; t.Start();
+            System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
+            t.Interval = 100;
+            t.Tick += (s, ev) => { pbPlayer.BackColor = Color.Transparent; t.Stop(); t.Dispose(); };
+            t.Start();
             if (playerHealth <= 0) GameOver("MISSION FAILED");
         }
 
@@ -444,7 +683,16 @@ namespace Example01
 
         private void GameOver(string msg)
         {
-            isGameOver = true; gameTimer.Stop(); SaveHighScore();
+            isGameOver = true;
+
+            // [5] TẮT NHẠC KHI GAME OVER
+            StopBackgroundMusic();
+
+            gameTimer.Stop();
+            timerPowerUp.Stop();
+            timerTransition.Stop();
+            SaveHighScore();
+
             Label lblOver = new Label();
             lblOver.Text = msg + "\n\nFINAL SCORE: " + score + "\n\n[PRESS ENTER TO RESTART]";
             lblOver.Font = new Font("Consolas", 18, FontStyle.Bold);
@@ -452,14 +700,15 @@ namespace Example01
             lblOver.BackColor = Color.FromArgb(180, 0, 0, 0);
             lblOver.TextAlign = ContentAlignment.MiddleCenter;
             lblOver.Dock = DockStyle.Fill;
-            this.Controls.Add(lblOver); lblOver.BringToFront();
+            this.Controls.Add(lblOver);
+            lblOver.BringToFront();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Left) goLeft = true;
             if (e.KeyCode == Keys.Right) goRight = true;
-            if (e.KeyCode == Keys.Space && !isGameOver) Shoot();
+            if (e.KeyCode == Keys.Space && !isGameOver && !isTransitioning) Shoot();
             if (e.KeyCode == Keys.Enter && isGameOver) { Controls.Clear(); InitializeComponent(); SetupGame(); }
             if (e.KeyCode == Keys.Up) goUp = true;
             if (e.KeyCode == Keys.Down) goDown = true;
